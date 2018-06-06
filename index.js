@@ -1,79 +1,4 @@
-const regular = {
-  backspace: 8,
-  tab: 9,
-  enter: 13,
-  space: 32,
-  left: 37,
-  up: 38,
-  right: 39,
-  down: 40,
-  ';': 186,
-  semicolon: 186,
-  '=': 187,
-  equal: 187,
-  ',': 188,
-  comma: 188,
-  '-': 189,
-  minus: 189,
-  '.': 190,
-  dot: 190,
-  '/': 191,
-  slash: 191,
-  '`': 192,
-  backtick: 192,
-  '[': 219,
-  openbraket: 219,
-  '\\': 220,
-  backslash: 220,
-  ']': 221,
-  closebraket: 221,
-  "'": 222,
-  quote: 222
-}
-
-const shifted = {
-  ')': 48,
-  closeparen: 48,
-  '!': 49,
-  bang: 49,
-  '@': 50,
-  at: 50,
-  '#': 51,
-  hash: 51,
-  '$': 52,
-  dollar: 52,
-  '%': 53,
-  percent: 53,
-  '^': 54,
-  caret: 54,
-  '&': 55,
-  ampersand: 55,
-  '*': 56,
-  asterisk: 56,
-  '(': 57,
-  openparen: 57,
-  ':': 186,
-  colon: 186,
-  '+': 187,
-  plus: 187,
-  '<': 188,
-  gt: 188,
-  _: 189,
-  '>': 190,
-  lt: 190,
-  '?': 191,
-  questionmark: 191,
-  '~': 192,
-  tilde: 192,
-  '{': 219,
-  openbrace: 219,
-  '|': 220,
-  pipe: 220,
-  '}': 221,
-  closebrace: 221,
-  '"': 222,
-  doublequote: 222
-}
+import { regular, shifted } from './definitions.js'
 
 const keyEvents = [ 'keypress', 'keyup', 'keydown' ]
 const modifiers = [ 'ctrl', 'shift', 'meta', 'alt' ]
@@ -93,11 +18,11 @@ const makeHandler = (noPreventSet, handlers) => e => {
 }
 
 const id = _ => _
-export const kevent = ({ eventsType = keyEvents, elem = window } = {}) => {
+const isEvent = s => keyEvents.includes(s)
+const specialKey = [ ...modifiers, ...keyEvents, 'default' ]
+export const kevent = ({ elem = window } = {}) => {
   const noPreventSet = new WeakSet
   const events = {}
-  const specialKey = [ ...modifiers, ...eventsType, 'default' ]
-  const isEvent = s => eventsType.includes(s)
   const getEvent = eventName => {
     if (events[eventName]) return events[eventName]
     const handlers = JSON.parse(handlersJSON)
